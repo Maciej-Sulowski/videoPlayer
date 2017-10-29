@@ -1,0 +1,26 @@
+@mixin center($position) {
+    position: absolute;
+
+    @if $position == 'vertical' {
+        top: 50%;
+        -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
+    @else if $position == 'horizontal' {
+        left: 50%;
+        transform: translate(-50%);
+    }
+    @else if $position == 'both' {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+
+@mixin circle($width, $color) {
+    width: $width;
+    height: $width;
+    background: $color;
+    border-radius: $width/2;
+}

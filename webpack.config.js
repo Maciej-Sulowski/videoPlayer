@@ -35,6 +35,7 @@ module.exports = {
     devServer: {
         contentBase: __dirname,
         compress: true,
+        inline: true,
         stats: "errors-only",
         open: true
     },

@@ -1,0 +1,100 @@
+{
+  "name": "",
+  "css_prefix_text": "icon-",
+  "css_use_suffix": false,
+  "hinting": true,
+  "units_per_em": 1000,
+  "ascent": 850,
+  "glyphs": [
+    {
+      "uid": "fb3f247b54ed6149e1978bc3145e239a",
+      "css": "stop-1",
+      "code": 59396,
+      "src": "elusive"
+    },
+    {
+      "uid": "a5971b6a03c85ab6835c6c2418fed5c5",
+      "css": "step-forward",
+      "code": 59398,
+      "src": "elusive"
+    },
+    {
+      "uid": "1e25340c5d25e252264419f11422b5fe",
+      "css": "step-backward",
+      "code": 59399,
+      "src": "elusive"
+    },
+    {
+      "uid": "8489d61496923b1159b01d8a0a7b2df0",
+      "css": "volume-off",
+      "code": 59392,
+      "src": "elusive"
+    },
+    {
+      "uid": "b59b3b618699b467541f631edd5a02ed",
+      "css": "volume",
+      "code": 59393,
+      "src": "elusive"
+    },
+    {
+      "uid": "57776e51a50e3b4d92701bdbbba01588",
+      "css": "resize-full",
+      "code": 59394,
+      "src": "elusive"
+    },
+    {
+      "uid": "8c7e34dcc8cc90ed5f4fd59949201f41",
+      "css": "resize-small",
+      "code": 59402,
+      "src": "elusive"
+    },
+    {
+      "uid": "8c23ecabc7d5df3666a038ad7c699421",
+      "css": "shuffle",
+      "code": 59403,
+      "src": "elusive"
+    },
+    {
+      "uid": "081a030199f3ab4e18fd3ebdac1bd367",
+      "css": "cw",
+      "code": 59404,
+      "src": "elusive"
+    },
+    {
+      "uid": "8710d1e404dcb3a55b3ab97f797355b5",
+      "css": "pause-circled",
+      "code": 59395,
+      "src": "elusive"
+    },
+    {
+      "uid": "fc006ff27e50163bdec3a7588226171b",
+      "css": "play-circled",
+      "code": 59397,
+      "src": "elusive"
+    },
+    {
+      "uid": "b9589ab3313e83200f5e16e1c0c7cfa1",
+      "css": "forward-circled",
+      "code": 59400,
+      "src": "elusive"
+    },
+    {
+      "uid": "705a184307d39acdb41b595fef478416",
+      "css": "backward-circled",
+      "code": 59401,
+      "src": "elusive"
+    },
+    {
+      "uid": "012ff5762ccb18c16bdfdd6baf187406",
+      "css": "volume-up",
+      "code": 59405,
+      "src": "elusive"
+    },
+    {
+      "uid": "5d9730dc93976d27eb07914eab50a507",
+      "css": "volume-down",
+      "code": 59406,
+      "src": "elusive"
+    }
+  ]
+}

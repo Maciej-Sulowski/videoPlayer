@@ -1,0 +1,176 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+
+body {
+    background: $background;
+    font-family:  $main-font;
+    line-height: 1;
+}
+
+ol, ul {
+	list-style: none;
+}
+
+blockquote, q {
+	quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes scaleOut {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(2);
+    }
+}
+
+.button {
+    border: none;
+    background: transparent;
+    color: $white;
+
+    &::before {
+        transition: all .5s;
+    }
+
+    &--no-outline {
+        outline: none;
+    }
+
+    &--main {
+        @include center(both);
+
+        display: block;
+        height: calc(100% - 100px);
+        outline: none;
+        opacity: 0;
+        overflow: hidden;
+        position: relative; 
+        width: 100%;
+
+        .icon-play-circled,
+        .icon-pause-circled {
+            font-size: 44px;
+        }
+
+        &.fade-out {
+            animation: fadeOut 1s;
+            transition: all .3s;
+
+            .icon-play-circled,
+            .icon-pause-circled {
+                &::before {
+                    animation: scaleOut 1s;
+                    transition: all .3s;
+                }
+            }
+        }
+    }
+
+    &--play {
+        padding: 0;
+    }
+
+    i {
+        font-size: 26px;
+    }
+}
+
+.slider {
+    min-width: 132px;
+
+    &-toggle {
+        transition: width .5s;
+        overflow: hidden;
+        width: 0;
+
+        .rangeslider {
+            min-width: 122px;
+            
+        }
+    }
+
+    .rangeslider {
+        &__handle {
+            background: transparent;
+            border: none;
+            box-shadow: none;
+            outline: none;
+            width: 20px;
+    
+            &::after {
+                background: $white;
+                top: 3px;
+                left: 0;
+                height: 24px;
+                width: 24px;
+            }
+
+            &-tooltip {
+                display: none;
+            }
+        }
+
+        &-horizontal {
+            height: 10px;
+            border-radius: $radius;
+        }
+
+        &__fill {
+            background: $progress-bar;
+        }
+    }
+}

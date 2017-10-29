@@ -1,0 +1,18 @@
+// colors
+$white: #fff;
+$white-transparent: rgba(255, 255, 255, .9);
+$black: #000;
+$black-transparent: rgba(0, 0, 0, .5);
+$background: #2D405B;
+$brand-first: #0cebeb;
+$brand-second: #29ffc6;
+$buttons-on-player: #D5F9FF;
+$brand-second-contrast-dark: #20e3b2;
+
+$progress-bar: linear-gradient(to right, #29ffc6, #20e3b2, #0cebeb); //-webkit-linear-gradient(to right, #29ffc6, #20e3b2, #0cebeb);  /* Chrome 10-25, Safari 5.1-6 */
+
+// fonts
+$main-font: 'Lato', 'Verdana', sans-serif;
+
+// other
+$radius: 6px;
