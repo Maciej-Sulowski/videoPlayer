@@ -134,7 +134,7 @@ class Player extends React.Component<IProps, IState> {
 
     stop(videoId): void {
         this.video.pause();
-        this.video.currentTime = 0;
+        this.video.load(); // this forces the poster to show after clicking the stop button.
         this.setState({ 
             stopped: true,
             videoProgress: 0,
