@@ -14,10 +14,12 @@ interface IState {
     chosenVideo: string;
     chosenVideoIndex: number;
     isVideoStopped: boolean;
+    stopped: boolean;
 };
 
 interface IProps {
     chosenVideo: string;
+    chooseVideo: any;
 };
 
 class Player extends React.Component<IProps, IState> {
@@ -26,6 +28,7 @@ class Player extends React.Component<IProps, IState> {
     private progress: HTMLInputElement;
     private playPause: HTMLButtonElement;
     private timeInfo: HTMLDivElement;
+    private extension: string; // extension that is playable by the browser
 
     constructor() {
         super();
@@ -41,7 +44,8 @@ class Player extends React.Component<IProps, IState> {
             isFadingDone: true,
             chosenVideo: 'Tom_Swoon_-_Wings_(Myon_and_Shane_54_Summer_of_Love_Mix)',
             chosenVideoIndex: 0,
-            isVideoStopped: true
+            isVideoStopped: true,
+            stopped: true
         }
     }
 
@@ -128,6 +132,18 @@ class Player extends React.Component<IProps, IState> {
         }
     }
 
+    stop(videoId): void {
+        this.video.pause();
+        this.video.currentTime = 0;
+        this.setState({ 
+            stopped: true,
+            videoProgress: 0,
+            togglePlayText: 'Play'
+        });
+        this.timeInfo.innerHTML = '00:00 / 00:00';
+        this.props.chooseVideo(null, videoId);
+    }
+
     setVideoProgress = (value: number): void => {
         let setProgress = this.video.duration * (value / 100);
 
@@ -156,6 +172,14 @@ class Player extends React.Component<IProps, IState> {
 
     componentDidMount() {
         this.video.controls = false;
+        
+        if (this.video.canPlayType("video/mp4") != "") {
+            this.extension = 'mp4';
+        } else if (this.video.canPlayType("video/webm") != "") {
+            this.extension = 'webm';
+        } else if (this.video.canPlayType("video/ogv") != "") {
+            this.extension = 'ogv';
+        }
 
         // if (this.video.paused || this.video.ended) {
         //     this.setState({ togglePlayText: 'Play' });
@@ -176,18 +200,17 @@ class Player extends React.Component<IProps, IState> {
 
     render() {
         const { volumeValue, videoProgress, isFadingDone } = this.state;
-        // console.log(this.state.chosenVideoIndex);
         return (
             <div className="player">
                 <video
                     // https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Media_events
+                    poster={`../videos/posters/${this.state.chosenVideo}.jpg`}
                     onLoadStart={() => (this.state.chosenVideoIndex !== 0) && this.playVideo() }
                     onEnded={() => this.playNext()}
                     onTimeUpdate={() => this.updateProgress()} // timeUpdate event fires everytime the media's currentTime attribute is changed
                     ref={video => this.video = video}
-                    src={this.state.isVideoStopped ? `` : `../videos/${this.state.chosenVideo}.mp4`}
+                    src={`../videos/${this.state.chosenVideo}.${this.extension}`}
                     controls>
-                    <img src={`../videos/posters/${this.state.chosenVideo}.jpg`} />
                 </video>
 
                 <button
@@ -199,13 +222,19 @@ class Player extends React.Component<IProps, IState> {
                 </button>
 
                 <div className="player-interface">
-                    <div id="controls">
+                    <div id="controls" className="player-interface-controls">
                         <button
                             className="button button--no-outline button--play pointer"
                             ref={playPause => this.playPause = playPause}
                             title={this.state.togglePlayText}
                             onClick={() => this.togglePlayPause()}>
                             <i className={this.state.togglePlayText === 'Play' ? 'icon-play-circled' : 'icon-pause-circled'}></i>
+                        </button>
+                        <button
+                            className="button button--no-outline pointer"
+                            title={this.state.togglePlayText}
+                            onClick={() => this.stop(0)}>
+                            <i className="icon-stop-circled"></i>
                         </button>
                     </div>
 

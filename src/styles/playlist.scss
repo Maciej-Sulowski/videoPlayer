@@ -5,11 +5,13 @@
     left: 0;
     top: 0;
     width: 300px;
+    font-size: 0; // removes spaces between <a> tags
 
     &-item {
         display: inline-block;
         box-sizing: border-box;
         color: $black;
+        font-size: 12px;
         padding: 10px;
         text-overflow: ellipsis;
         text-decoration: none;
@@ -20,5 +22,10 @@
             background: $black-transparent;
             color: $white;
         }
+    }
+
+    &-item--current {
+        background: $black;
+        color: $white;
     }
 }

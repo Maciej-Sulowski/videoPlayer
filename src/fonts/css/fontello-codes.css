@@ -3,7 +3,7 @@
 .icon-volume:before { content: '\e801'; } /* '' */
 .icon-resize-full:before { content: '\e802'; } /* '' */
 .icon-pause-circled:before { content: '\e803'; } /* '' */
-.icon-stop-1:before { content: '\e804'; } /* '' */
+.icon-stop-circled:before { content: '\e804'; } /* '' */
 .icon-play-circled:before { content: '\e805'; } /* '' */
 .icon-step-forward:before { content: '\e806'; } /* '' */
 .icon-step-backward:before { content: '\e807'; } /* '' */

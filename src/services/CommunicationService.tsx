@@ -2,10 +2,7 @@ import * as React from 'react';
 import * as $ from 'jquery';
 
 class CommunicationService {
-    private getHTTP;
-
     constructor() {
-        // this.getHTTP = CommunicationService.getHTTP;
     }
     
     static getHTTP(url): any {

@@ -7,12 +7,6 @@
   "ascent": 850,
   "glyphs": [
     {
-      "uid": "fb3f247b54ed6149e1978bc3145e239a",
-      "css": "stop-1",
-      "code": 59396,
-      "src": "elusive"
-    },
-    {
       "uid": "a5971b6a03c85ab6835c6c2418fed5c5",
       "css": "step-forward",
       "code": 59398,
@@ -94,6 +88,12 @@
       "uid": "5d9730dc93976d27eb07914eab50a507",
       "css": "volume-down",
       "code": 59406,
+      "src": "elusive"
+    },
+    {
+      "uid": "fa2a253fba2da626ef08edcc62d1e4b6",
+      "css": "stop-circled",
+      "code": 59396,
       "src": "elusive"
     }
   ]
