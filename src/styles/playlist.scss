@@ -1,3 +1,24 @@
-body {
-    color: red;
+.playlist {
+    background: $white;
+    height: calc(100vh - 100px);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 300px;
+
+    &-item {
+        display: inline-block;
+        box-sizing: border-box;
+        color: $black;
+        padding: 10px;
+        text-overflow: ellipsis;
+        text-decoration: none;
+        width: 100%;
+        overflow: hidden;
+
+        &:hover {
+            background: $black-transparent;
+            color: $white;
+        }
+    }
 }

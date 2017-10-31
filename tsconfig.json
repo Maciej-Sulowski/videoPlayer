@@ -3,10 +3,11 @@
         "allowSyntheticDefaultImports": true,
         "outDir": "./dist/",
         "sourceMap": true,
-        "noImplicitAny": true,
+        "noImplicitAny": false,
         "module": "commonjs",
         "target": "es5",
-        "jsx": "react"
+        "jsx": "react",
+        "lib" : ["es2015", "dom"] // this line fixes a jQuery/TypeScript error "ERROR in [at-loader] ./node_modules/@types/jquery/index.d.ts:2962:63 ... Cannot find name 'Iterable'."
     },
     "include": [
         "./src/**/*"

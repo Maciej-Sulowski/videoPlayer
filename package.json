@@ -25,13 +25,14 @@
     "sass-loader": "^6.0.6",
     "source-map-loader": "^0.2.1",
     "style-loader": "^0.18.2",
-    "typescript": "^2.4.2",
+    "typescript": "^2.5.3",
     "webpack": "^3.3.0",
     "webpack-dev-server": "^2.9.3"
   },
   "dependencies": {
     "@types/react": "^15.0.38",
     "@types/react-dom": "^15.5.1",
+    "es6-promise": "^4.1.1",
     "font-awesome": "^4.7.0",
     "jquery": "^3.2.1",
     "react": "^15.6.1",
