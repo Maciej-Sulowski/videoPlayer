@@ -2,27 +2,33 @@
     "videos": [
         {
             "id": 0,
-            "videoTitle": "Tom_Swoon_-_Wings_(Myon_and_Shane_54_Summer_of_Love_Mix)"
+            "videoTitle": "Tom_Swoon_-_Wings_(Myon_and_Shane_54_Summer_of_Love_Mix)",
+            "duration": "04:17"
         },
         {
             "id": 1,
-            "videoTitle": "Forward_Cinematic_Nature"
+            "videoTitle": "Forward_Cinematic_Nature",
+            "duration": "01:23"
         },
         {
             "id": 2,
-            "videoTitle": "Kit_Lens_-_Cinematic_Short_Film"
+            "videoTitle": "Kit_Lens_-_Cinematic_Short_Film",
+            "duration": "01:38"
         },
         {
             "id": 3,
-            "videoTitle": "MicroWorld_Trailer"
+            "videoTitle": "MicroWorld_Trailer",
+            "duration": "01:42"
         },
         {
             "id": 4,
-            "videoTitle": "Rainy_Day"
+            "videoTitle": "Rainy_Day",
+            "duration": "01:46"
         },
         {
             "id": 5,
-            "videoTitle": "Cinematic_Look"
+            "videoTitle": "Cinematic_Look",
+            "duration": "02:51"
         }
     ]
 }

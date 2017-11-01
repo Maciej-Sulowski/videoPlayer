@@ -13,19 +13,31 @@
         color: $black;
         font-size: 12px;
         padding: 10px;
-        text-overflow: ellipsis;
         text-decoration: none;
-        width: 100%;
         overflow: hidden;
+        white-space: nowrap;
+        width: 100%;
 
         &:hover {
             background: $black-transparent;
             color: $white;
+        }
+
+        a {
+            display: inline-block;
+            width: 85%;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
     }
 
     &-item--current {
         background: $black;
         color: $white;
+    }
+    
+    &-item-duration {
+        float: right;
+        padding-left: 10px;
     }
 }

@@ -8,6 +8,7 @@ import './styles/styles.scss';
 interface IState {
     playlist?: any[];
     chosenVideo: string;
+    videoIndex: number;
 };
 
 interface IProps {};
@@ -20,16 +21,18 @@ class App extends React.Component<IProps, IState> {
 
         this.state = {
             playlist: [],
-            chosenVideo: ''
+            chosenVideo: '',
+            videoIndex: 0
         }
         this.getPlaylist = () => {
             CommunicationService.getHTTP('./src/playlist.json').then((response) => {
+                console.log(response);
                 this.setState({
                     playlist: response.videos,
-                    chosenVideo: response.videos[0].videoTitle
+                    chosenVideo: response.videos[0].videoTitle,
+                    videoIndex: 0
                 });
             });
-            
         }
         this.getPlaylist();
         this.chooseVideo = this.chooseVideo.bind(this);
@@ -44,7 +47,10 @@ class App extends React.Component<IProps, IState> {
             // with the proper link
             // find componentWillReceiveProps(props) inside player.tsx to read more.
             if (currentVideo.id === videoId) {
-                this.setState({ chosenVideo: currentVideo.videoTitle });
+                this.setState({
+                    chosenVideo: currentVideo.videoTitle,
+                    videoIndex: videoId
+                });
             }
         });
     }
@@ -53,8 +59,11 @@ class App extends React.Component<IProps, IState> {
         return(
             <div>
                 <Player
+                    playlistLength={this.state.playlist.length}
                     chosenVideo={this.state.chosenVideo}
-                    chooseVideo={this.chooseVideo}>
+                    chosenVideoIndex={this.state.videoIndex}
+                    chooseVideo={this.chooseVideo}
+                    playlist={this.state.playlist}>
                 </Player>
                 <Playlist
                     chosenVideo={this.state.chosenVideo}

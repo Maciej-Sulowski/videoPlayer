@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Slider from 'react-rangeslider'; // https://whoisandy.github.io/react-rangeslider/
-import Playlist from './playlist';
 
 interface IState {
     togglePlayText: string;
@@ -20,6 +19,9 @@ interface IState {
 interface IProps {
     chosenVideo: string;
     chooseVideo: any;
+    playlist: any[];
+    playlistLength: number;
+    chosenVideoIndex: number;
 };
 
 class Player extends React.Component<IProps, IState> {
@@ -157,17 +159,22 @@ class Player extends React.Component<IProps, IState> {
     }
 
     playVideo(): any {
-        !this.state.isVideoStopped && this.video.play();
+        let isPlaying = this.video.currentTime > 0 && !this.video.paused && !this.video.ended && this.video.readyState > 2;
+        
+        if (!isPlaying) {
+            this.setState({ togglePlayText: 'Pause' });
+            this.video.play();
+        } else {
+            this.setState({ togglePlayText: 'Play' });
+        }
     }
 
-    playNext(): any{
-        var isPlaying = this.video.currentTime > 0 && !this.video.paused && !this.video.ended && this.video.readyState > 2;
-
-        this.setState(
-            { chosenVideo: 'Forward_Cinematic_Nature' }
-        );
-
-        // !isPlaying && this.video.play();
+    chooseNext(): any {
+        if (this.state.chosenVideoIndex < this.props.playlistLength - 1) {
+            this.props.chooseVideo(null, this.state.chosenVideoIndex + 1);
+        } else {
+            this.props.chooseVideo(null, 0);
+        }
     }
 
     componentDidMount() {
@@ -180,12 +187,6 @@ class Player extends React.Component<IProps, IState> {
         } else if (this.video.canPlayType("video/ogv") != "") {
             this.extension = 'ogv';
         }
-
-        // if (this.video.paused || this.video.ended) {
-        //     this.setState({ togglePlayText: 'Play' });
-        // } else {
-        //     this.setState({ togglePlayText: 'Pause' });
-        // }
     }
 
     // this function receives the props from its parent element and it updates the state.
@@ -194,7 +195,7 @@ class Player extends React.Component<IProps, IState> {
     componentWillReceiveProps(props) {
         this.setState({
             chosenVideo: props.chosenVideo,
-            chosenVideoIndex: props.index
+            chosenVideoIndex: props.chosenVideoIndex
         });
     }
 
@@ -206,7 +207,7 @@ class Player extends React.Component<IProps, IState> {
                     // https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Media_events
                     poster={`../videos/posters/${this.state.chosenVideo}.jpg`}
                     onLoadStart={() => (this.state.chosenVideoIndex !== 0) && this.playVideo() }
-                    onEnded={() => this.playNext()}
+                    onEnded={() => this.chooseNext()}
                     onTimeUpdate={() => this.updateProgress()} // timeUpdate event fires everytime the media's currentTime attribute is changed
                     ref={video => this.video = video}
                     src={`../videos/${this.state.chosenVideo}.${this.extension}`}
