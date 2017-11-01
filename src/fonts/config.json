@@ -95,6 +95,12 @@
       "css": "stop-circled",
       "code": 59396,
       "src": "elusive"
+    },
+    {
+      "uid": "ef47651da3866460f27baf85ae234e5c",
+      "css": "list",
+      "code": 59407,
+      "src": "iconic"
     }
   ]
 }

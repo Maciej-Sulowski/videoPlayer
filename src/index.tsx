@@ -9,6 +9,7 @@ interface IState {
     playlist?: any[];
     chosenVideo: string;
     videoIndex: number;
+    canVideosBePlayed: boolean;
 };
 
 interface IProps {};
@@ -22,11 +23,11 @@ class App extends React.Component<IProps, IState> {
         this.state = {
             playlist: [],
             chosenVideo: '',
-            videoIndex: 0
+            videoIndex: 0,
+            canVideosBePlayed: false
         }
         this.getPlaylist = () => {
             CommunicationService.getHTTP('./src/playlist.json').then((response) => {
-                console.log(response);
                 this.setState({
                     playlist: response.videos,
                     chosenVideo: response.videos[0].videoTitle,
@@ -49,16 +50,24 @@ class App extends React.Component<IProps, IState> {
             if (currentVideo.id === videoId) {
                 this.setState({
                     chosenVideo: currentVideo.videoTitle,
-                    videoIndex: videoId
+                    videoIndex: videoId                    
                 });
+
+                if (currentVideo.id < (this.state.playlist.length - 1)) {
+                    this.setState({ canVideosBePlayed: false });
+                } else {
+                    this.setState({ canVideosBePlayed: true });
+                }
             }
         });
     }
 
+    
     render() {
         return(
             <div>
                 <Player
+                    canVideosBePlayed={this.state.canVideosBePlayed}
                     playlistLength={this.state.playlist.length}
                     chosenVideo={this.state.chosenVideo}
                     chosenVideoIndex={this.state.videoIndex}

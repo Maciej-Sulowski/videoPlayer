@@ -14,6 +14,8 @@ interface IState {
     chosenVideoIndex: number;
     isVideoStopped: boolean;
     stopped: boolean;
+    resize: string;
+    canVideosBePlayed: boolean;
 };
 
 interface IProps {
@@ -22,15 +24,20 @@ interface IProps {
     playlist: any[];
     playlistLength: number;
     chosenVideoIndex: number;
+    canVideosBePlayed: boolean;
 };
 
+declare var document: any;
 class Player extends React.Component<IProps, IState> {
-    private video: HTMLVideoElement;
+    private video: any; // this must be type 'any'
+    private videoContainer: any;
     private volume: HTMLInputElement;
     private progress: HTMLInputElement;
     private playPause: HTMLButtonElement;
     private timeInfo: HTMLDivElement;
     private extension: string; // extension that is playable by the browser
+    public exitFullscreen: () => void;
+    public mozCancelFullScreen: () => void;
 
     constructor() {
         super();
@@ -47,7 +54,9 @@ class Player extends React.Component<IProps, IState> {
             chosenVideo: 'Tom_Swoon_-_Wings_(Myon_and_Shane_54_Summer_of_Love_Mix)',
             chosenVideoIndex: 0,
             isVideoStopped: true,
-            stopped: true
+            stopped: true,
+            resize: 'Enter full screen',
+            canVideosBePlayed: false
         }
     }
 
@@ -81,7 +90,7 @@ class Player extends React.Component<IProps, IState> {
         }
     }
 
-    setVolume = (value: number): any => {
+    setVolume = (value: number): void => {
         this.setState({
             volumeValue: value,
             previousVolumeValue: value
@@ -154,11 +163,43 @@ class Player extends React.Component<IProps, IState> {
         this.setState({ videoProgress: value });
     }
 
-    fadingDone(): any {
+    fadingDone(): void {
         this.setState({ isFadingDone: true });
     }
 
-    playVideo(): any {
+    enterFullScreen(): any {
+        this.setState({ resize: 'Exit full screen' });
+
+        if (this.videoContainer.requestFullscreen) {
+            this.videoContainer.requestFullscreen();
+        } else if (this.videoContainer.webkitRequestFullScreen) {
+            this.videoContainer.webkitRequestFullscreen();
+        } else if (this.videoContainer.mozRequestFullScreen) {
+            this.videoContainer.mozRequestFullScreen();
+        } else if (this.videoContainer.msRequestFullscreen) {
+            this.videoContainer.msRequestFullscreen();
+        }
+    }
+
+    exitFullScreen(): void {
+        this.setState({ resize: 'Enter full screen' });
+
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+        } else if (document.cancelFullScreen) {
+            document.cancelFullScreen();
+        } else if (document.webkitCancelFullScreen) {
+            document.webkitCancelFullScreen();
+        }
+    }
+
+    playVideo(): void {
         let isPlaying = this.video.currentTime > 0 && !this.video.paused && !this.video.ended && this.video.readyState > 2;
         
         if (!isPlaying) {
@@ -169,10 +210,11 @@ class Player extends React.Component<IProps, IState> {
         }
     }
 
-    chooseNext(): any {
+    chooseNext(): void {
         if (this.state.chosenVideoIndex < this.props.playlistLength - 1) {
             this.props.chooseVideo(null, this.state.chosenVideoIndex + 1);
         } else {
+            this.setState({ canVideosBePlayed: false });
             this.props.chooseVideo(null, 0);
         }
     }
@@ -195,22 +237,25 @@ class Player extends React.Component<IProps, IState> {
     componentWillReceiveProps(props) {
         this.setState({
             chosenVideo: props.chosenVideo,
-            chosenVideoIndex: props.chosenVideoIndex
+            chosenVideoIndex: props.chosenVideoIndex,
+            canVideosBePlayed: props.canVideosBePlayed
         });
     }
 
     render() {
-        const { volumeValue, videoProgress, isFadingDone } = this.state;
+        const { volumeValue, videoProgress, isFadingDone, canVideosBePlayed, chosenVideoIndex, chosenVideo, togglePlayText, resize, volumeIconSuffix, toggleMuteText } = this.state;
         return (
-            <div className="player">
+            <div
+                className="player"
+                ref={videoContainer => this.videoContainer = videoContainer}>
                 <video
                     // https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Media_events
-                    poster={`../videos/posters/${this.state.chosenVideo}.jpg`}
-                    onLoadStart={() => (this.state.chosenVideoIndex !== 0) && this.playVideo() }
+                    poster={`../videos/posters/${chosenVideo}.jpg`}
+                    onLoadStart={() => (chosenVideoIndex !== 0 || canVideosBePlayed) && this.playVideo() }
                     onEnded={() => this.chooseNext()}
                     onTimeUpdate={() => this.updateProgress()} // timeUpdate event fires everytime the media's currentTime attribute is changed
                     ref={video => this.video = video}
-                    src={`../videos/${this.state.chosenVideo}.${this.extension}`}
+                    src={`../videos/${chosenVideo}.${this.extension}`}
                     controls>
                 </video>
 
@@ -219,7 +264,7 @@ class Player extends React.Component<IProps, IState> {
                     onClick={() => this.togglePlayPause()}
                     onAnimationEnd={() => this.fadingDone()}>
 
-                    <i className={this.state.togglePlayText === 'Play' ? 'icon-pause-circled' : 'icon-play-circled'}></i>
+                    <i className={togglePlayText === 'Play' ? 'icon-pause-circled' : 'icon-play-circled'}></i>
                 </button>
 
                 <div className="player-interface">
@@ -227,13 +272,13 @@ class Player extends React.Component<IProps, IState> {
                         <button
                             className="button button--no-outline button--play pointer"
                             ref={playPause => this.playPause = playPause}
-                            title={this.state.togglePlayText}
+                            title={togglePlayText}
                             onClick={() => this.togglePlayPause()}>
-                            <i className={this.state.togglePlayText === 'Play' ? 'icon-play-circled' : 'icon-pause-circled'}></i>
+                            <i className={togglePlayText === 'Play' ? 'icon-play-circled' : 'icon-pause-circled'}></i>
                         </button>
                         <button
                             className="button button--no-outline pointer"
-                            title={this.state.togglePlayText}
+                            title={togglePlayText}
                             onClick={() => this.stop(0)}>
                             <i className="icon-stop-circled"></i>
                         </button>
@@ -256,13 +301,22 @@ class Player extends React.Component<IProps, IState> {
                             onChange={this.setVideoProgress} />
                     </div>
 
+                    <div className="player-interface-resize">
+                        <button
+                            title={resize}
+                            className="button button--no-outline pointer"
+                            onClick={() => { resize === 'Enter full screen' ? this.enterFullScreen() : this.exitFullScreen() } }>
+
+                            <i className={ resize === 'Enter full screen' ? `icon-resize-full` : `icon-resize-small` }></i>
+                        </button>
+                    </div>
                     <div className="player-interface-volume">
                         <button
-                            title={this.state.toggleMuteText}
+                            title={toggleMuteText}
                             className="button button--no-outline pointer"
                             onClick={() => this.toggleMute()}>
 
-                            <i className={`icon-volume${this.state.volumeIconSuffix}`}></i>
+                            <i className={`icon-volume${volumeIconSuffix}`}></i>
                         </button>
                         <div className="slider">
                             <div className="slider-toggle">

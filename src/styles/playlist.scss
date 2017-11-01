@@ -1,26 +1,37 @@
 .playlist {
-    background: $white;
-    height: calc(100vh - 100px);
+    background: $black-transparent;
+    display: inline-block;
+    max-height: calc(100vh - 100px);
     position: absolute;
-    left: 0;
+    opacity: 1;
     top: 0;
+    left: -300px;
+    font-size: 0; // removes unnecessary space between <a> tags
+    transition: all .5s;
     width: 300px;
-    font-size: 0; // removes spaces between <a> tags
+
+    &--is-visible {
+        left: 0;
+        width: 300px;
+    }
 
     &-item {
         display: inline-block;
         box-sizing: border-box;
-        color: $black;
+        color: $white;
         font-size: 12px;
         padding: 10px;
         text-decoration: none;
         overflow: hidden;
         white-space: nowrap;
+        padding: 5px;
+        transition: all .3s;
+        
         width: 100%;
 
         &:hover {
-            background: $black-transparent;
-            color: $white;
+            background: $white-transparent;
+            color: $black;
         }
 
         a {
@@ -32,12 +43,26 @@
     }
 
     &-item--current {
-        background: $black;
-        color: $white;
+        background: $white;
+        color: $black;
     }
     
     &-item-duration {
         float: right;
         padding-left: 10px;
+    }
+
+    &-toggle {
+        background: $black-transparent;
+        display: inline-block;
+        position: absolute;
+        top: 0;
+        right: -48px;
+        padding: 5px;
+        
+        i {
+            color: $white;
+            font-size: 27px;
+        }
     }
 }
