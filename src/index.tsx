@@ -47,7 +47,7 @@ class App extends React.Component<IProps, IState> {
         this.setState({ canPlay: false, firstFetch: true })
     }
 
-    chooseVideo(event: any, videoId: number) {
+    chooseVideo(event: any, videoId: number, shouldStop?: boolean) {
         this.state.playlist.forEach((currentVideo) => {
             // this forEach goes through every video inside the playlist and 
             // matches the clicked video to be rendered on the screen.
@@ -62,8 +62,10 @@ class App extends React.Component<IProps, IState> {
                     canPlay: true
                 });
 
-                if (currentVideo.id <= (this.state.playlist.length - 1)) {
+                if (!shouldStop && (currentVideo.id <= (this.state.playlist.length - 1))) {
                     this.setState({ canPlay: true, firstFetch: false });
+                } else {
+                    this.setState({ canPlay: false, firstFetch: true})
                 }
             }
         });

@@ -12,7 +12,6 @@ interface IState {
     isFadingDone: boolean;
     chosenVideo: string;
     chosenVideoIndex: number;
-    isVideoStopped: boolean;
     stopped: boolean;
     resize: string;
     canPlay: boolean;
@@ -56,7 +55,6 @@ class Player extends React.Component<IProps, IState> {
             isFadingDone: true,
             chosenVideo: 'Tom_Swoon_-_Wings_(Myon_and_Shane_54_Summer_of_Love_Mix)',
             chosenVideoIndex: 0,
-            isVideoStopped: true,
             stopped: true,
             resize: 'Enter full screen',
             canPlay: false,
@@ -153,10 +151,11 @@ class Player extends React.Component<IProps, IState> {
         this.setState({ 
             stopped: true,
             videoProgress: 0,
-            togglePlayText: 'Play'
+            togglePlayText: 'Play',
+            canPlay: false
         });
         this.timeInfo.innerHTML = '00:00 / 00:00';
-        this.props.chooseVideo(null, videoId);
+        this.props.chooseVideo(null, videoId, true);
     }
 
     setVideoProgress = (value: number): void => {
@@ -254,7 +253,7 @@ class Player extends React.Component<IProps, IState> {
     }
 
     render() {
-        const { volumeValue, videoProgress, firstFetch, isFadingDone, canPlay, chosenVideoIndex, chosenVideo, togglePlayText, resize, volumeIconSuffix, toggleMuteText } = this.state;
+        const { volumeValue, stopped, videoProgress, firstFetch, isFadingDone, canPlay, chosenVideoIndex, chosenVideo, togglePlayText, resize, volumeIconSuffix, toggleMuteText } = this.state;
         return (
             <div
                 className="player"
@@ -288,7 +287,7 @@ class Player extends React.Component<IProps, IState> {
                         </button>
                         <button
                             className="button button--no-outline pointer"
-                            title={togglePlayText}
+                            title="Stop"
                             onClick={() => this.stop(0)}>
                             <i className="icon-stop-circled"></i>
                         </button>
