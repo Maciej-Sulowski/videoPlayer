@@ -9,7 +9,8 @@ interface IState {
     playlist?: any[];
     chosenVideo: string;
     videoIndex: number;
-    canVideosBePlayed: boolean;
+    canPlay: boolean;
+    firstFetch: boolean;
 };
 
 interface IProps {};
@@ -24,19 +25,26 @@ class App extends React.Component<IProps, IState> {
             playlist: [],
             chosenVideo: '',
             videoIndex: 0,
-            canVideosBePlayed: false
+            canPlay: false,
+            firstFetch: true
         }
         this.getPlaylist = () => {
             CommunicationService.getHTTP('./src/playlist.json').then((response) => {
                 this.setState({
                     playlist: response.videos,
                     chosenVideo: response.videos[0].videoTitle,
-                    videoIndex: 0
+                    videoIndex: 0,
+                    firstFetch: true
                 });
             });
         }
         this.getPlaylist();
         this.chooseVideo = this.chooseVideo.bind(this);
+        this.resetState = this.resetState.bind(this);
+    }
+
+    resetState() {
+        this.setState({ canPlay: false, firstFetch: true })
     }
 
     chooseVideo(event: any, videoId: number) {
@@ -50,24 +58,24 @@ class App extends React.Component<IProps, IState> {
             if (currentVideo.id === videoId) {
                 this.setState({
                     chosenVideo: currentVideo.videoTitle,
-                    videoIndex: videoId                    
+                    videoIndex: videoId,
+                    canPlay: true
                 });
 
-                if (currentVideo.id < (this.state.playlist.length - 1)) {
-                    this.setState({ canVideosBePlayed: false });
-                } else {
-                    this.setState({ canVideosBePlayed: true });
+                if (currentVideo.id <= (this.state.playlist.length - 1)) {
+                    this.setState({ canPlay: true, firstFetch: false });
                 }
             }
         });
     }
 
-    
     render() {
         return(
             <div>
                 <Player
-                    canVideosBePlayed={this.state.canVideosBePlayed}
+                    resetState={this.resetState}
+                    firstFetch={this.state.firstFetch}
+                    canPlay={this.state.canPlay}
                     playlistLength={this.state.playlist.length}
                     chosenVideo={this.state.chosenVideo}
                     chosenVideoIndex={this.state.videoIndex}

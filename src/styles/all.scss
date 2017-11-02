@@ -95,7 +95,7 @@ table {
         @include center(both);
 
         display: block;
-        height: calc(100% - 100px);
+        height: 100%;
         outline: none;
         opacity: 0;
         overflow: hidden;
@@ -104,6 +104,10 @@ table {
 
         .icon-play-circled,
         .icon-pause-circled {
+            @include media-breakpoint-down(sm) {
+                font-size: 34px;
+            }    
+        
             font-size: 44px;
         }
 
@@ -126,21 +130,30 @@ table {
     }
 
     i {
+        @include media-breakpoint-down(sm) {
+            font-size: 22px;
+        }
+
         font-size: 26px;
     }
 }
 
 .slider {
-    min-width: 132px;
-
     &-toggle {
-        transition: width .5s;
-        overflow: hidden;
-        width: 0;
+        @include media-breakpoint-down(xl) {
+            width: 100%;
+        }
+
+        padding-right: 10px;
+        width: 122px;
 
         .rangeslider {
-            min-width: 122px;
-            
+            @include media-breakpoint-up(xs) {
+                margin-right: 10px;
+                width: 80px;
+            }
+
+            width: 122px;
         }
     }
 
@@ -153,6 +166,12 @@ table {
             width: 20px;
     
             &::after {
+                @include media-breakpoint-up(xs) {
+                    top: 5px;
+                    height: 20px;
+                    width: 20px;
+                }
+
                 background: $white;
                 top: 3px;
                 left: 0;

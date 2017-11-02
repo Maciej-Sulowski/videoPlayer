@@ -14,5 +14,16 @@ $progress-bar: linear-gradient(to right, #29ffc6, #20e3b2, #0cebeb); //-webkit-l
 // fonts
 $main-font: 'Lato', 'Verdana', sans-serif;
 
+// breakpoints:
+$grid-breakpoints: (
+    xs: 0,
+    sm: 640px,
+    md: 768px,
+    lg: 992px,
+    xl: 1024px,
+    xxl: 1440px,
+    xxxl: 1640px
+);
+
 // other
 $radius: 6px;

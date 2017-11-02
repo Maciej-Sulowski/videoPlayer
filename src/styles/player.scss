@@ -1,4 +1,4 @@
-.player {
+.player {    
     align-items: center;
     color: $white;
     display: flex;
@@ -6,31 +6,45 @@
     width: 100vw;
 
     &-interface {
+        @media screen and (max-width: 768px) and (orientation: portrait) {
+            padding: 36px 5px 64px 5px;
+        }
+
         background: $black-transparent;
         box-sizing: border-box;
-        display: flex;
-        justify-content: space-around;
+        display: flex; // 
         align-items: center;
-        padding: 25px;
+        padding: 15px 5px 5px 5px;
         position: absolute;
         width: 100%;
         bottom: 0;
         z-index: 99;
-        opacity: 0;
         transition: opacity .5s;
+        justify-content: center;
+        height: 50px;
+        opacity: 0;
 
         &:hover {
+            opacity: 1;
+        }
+
+        &--mobile-visible {
             opacity: 1;
         }
     }
 
     &-interface-progress {
+        @include media-breakpoint-up(xs) {
+            width: 100%;
+            position: absolute;
+            top: 0;
+        }
+
         background: transparent;
         display: flex;
         align-items: center;
         border-radius: $radius;
-        height: 50px;
-        min-width: 70%;
+        height: 10px;
 
         & .rangeslider__handle {
             opacity: 0;
@@ -61,22 +75,35 @@
     }
 
     &-interface-volume {
-        display: flex;
-        min-width: 180px;
-
-        &:hover {
-            .slider-toggle {
-                width: 122px;
-                padding-right: 10px;
-            }
+        @media screen and (max-width: 768px) and (orientation: portrait) {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
         }
+
+        display: flex;
+        padding-right: 10px;
     }
 
     &-interface-controls {
         display: flex;
     }
 
+    &-interface-timer {
+        width: 100px;
+        white-space: nowrap;
+    }
+
     video {
+        @media screen and (max-width: 768px) and (orientation: landscape) {
+            height: 100%;
+            left: 50%;
+            position: absolute;
+            transform: translateX(-50%);
+            top: 0;
+        }
+
         width: 100%;
         position: absolute;
     }

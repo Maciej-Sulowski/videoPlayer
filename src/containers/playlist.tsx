@@ -19,7 +19,7 @@ class Playlist extends React.Component<IProps, IState> {
         this.state = {
             playlist: [],
             chosenVideo: '',
-            isPlaylistVisible: ''
+            isPlaylistVisible: 'playlist--is-visible'
         };
     }
 
@@ -41,7 +41,8 @@ class Playlist extends React.Component<IProps, IState> {
             return (
                 <li key={index}
                     className={`playlist-item ${highlighted} pointer`}
-                    onDoubleClick={(event) => this.props.chooseVideo(event, index)}>
+                    onDoubleClick={(event) => this.props.chooseVideo(event, index)}
+                    onTouchStart={(event) => this.props.chooseVideo(event, index)}>
 
                     <a>{`${currentVideo.videoTitle}`}</a>
                     <span className="playlist-item-duration">{`${currentVideo.duration}`}</span>

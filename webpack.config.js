@@ -9,7 +9,7 @@ module.exports = {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist')
     },
-    devtool: 'source-map',
+    devtool: 'source-map', 
     resolve: {
         extensions: ['.ts', '.tsx', '.js', '.json']
     },
@@ -41,7 +41,7 @@ module.exports = {
     },
     plugins: [
         new ExtractTextPlugin({
-            filename: 'styles.min.css',
+            filename: 'styles2.css',
             disable: false,
             allChunks: true
         }),

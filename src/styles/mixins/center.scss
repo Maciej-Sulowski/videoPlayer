@@ -17,10 +17,3 @@
         transform: translate(-50%, -50%);
     }
 }
-
-@mixin circle($width, $color) {
-    width: $width;
-    height: $width;
-    background: $color;
-    border-radius: $width/2;
-}

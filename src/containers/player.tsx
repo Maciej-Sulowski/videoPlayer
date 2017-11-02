@@ -5,7 +5,7 @@ interface IState {
     togglePlayText: string;
     toggleMuteText: string;
     volumeValue: number;
-    videoProgress: any;
+    videoProgress: any; 
     volumeIconSuffix: string;
     previousVolumeValue: number;
     previousIconSuffix: string;
@@ -15,7 +15,8 @@ interface IState {
     isVideoStopped: boolean;
     stopped: boolean;
     resize: string;
-    canVideosBePlayed: boolean;
+    canPlay: boolean;
+    firstFetch: boolean;
 };
 
 interface IProps {
@@ -24,7 +25,9 @@ interface IProps {
     playlist: any[];
     playlistLength: number;
     chosenVideoIndex: number;
-    canVideosBePlayed: boolean;
+    canPlay: boolean;
+    firstFetch: boolean;
+    resetState: () => void; 
 };
 
 declare var document: any;
@@ -56,7 +59,8 @@ class Player extends React.Component<IProps, IState> {
             isVideoStopped: true,
             stopped: true,
             resize: 'Enter full screen',
-            canVideosBePlayed: false
+            canPlay: false,
+            firstFetch: true
         }
     }
 
@@ -156,11 +160,12 @@ class Player extends React.Component<IProps, IState> {
     }
 
     setVideoProgress = (value: number): void => {
-        let setProgress = this.video.duration * (value / 100);
-
-        this.video.currentTime = setProgress;
-
-        this.setState({ videoProgress: value });
+        if (this.state.canPlay) {
+            let setProgress = this.video.duration * (value / 100);
+            
+            this.video.currentTime = setProgress;
+            this.setState({ videoProgress: value });
+        }
     }
 
     fadingDone(): void {
@@ -201,8 +206,8 @@ class Player extends React.Component<IProps, IState> {
 
     playVideo(): void {
         let isPlaying = this.video.currentTime > 0 && !this.video.paused && !this.video.ended && this.video.readyState > 2;
-        
-        if (!isPlaying) {
+
+        if (!isPlaying && !this.state.firstFetch) {
             this.setState({ togglePlayText: 'Pause' });
             this.video.play();
         } else {
@@ -211,11 +216,16 @@ class Player extends React.Component<IProps, IState> {
     }
 
     chooseNext(): void {
-        if (this.state.chosenVideoIndex < this.props.playlistLength - 1) {
+        if ((this.state.chosenVideoIndex < this.props.playlistLength - 1) && !this.state.firstFetch) {
             this.props.chooseVideo(null, this.state.chosenVideoIndex + 1);
         } else {
-            this.setState({ canVideosBePlayed: false });
+            this.setState({
+                canPlay: false,
+                firstFetch: true,
+                togglePlayText: 'Play'
+            });
             this.props.chooseVideo(null, 0);
+            this.props.resetState();
         }
     }
 
@@ -238,20 +248,20 @@ class Player extends React.Component<IProps, IState> {
         this.setState({
             chosenVideo: props.chosenVideo,
             chosenVideoIndex: props.chosenVideoIndex,
-            canVideosBePlayed: props.canVideosBePlayed
+            canPlay: props.canPlay,
+            firstFetch: props.firstFetch
         });
     }
 
     render() {
-        const { volumeValue, videoProgress, isFadingDone, canVideosBePlayed, chosenVideoIndex, chosenVideo, togglePlayText, resize, volumeIconSuffix, toggleMuteText } = this.state;
+        const { volumeValue, videoProgress, firstFetch, isFadingDone, canPlay, chosenVideoIndex, chosenVideo, togglePlayText, resize, volumeIconSuffix, toggleMuteText } = this.state;
         return (
             <div
                 className="player"
                 ref={videoContainer => this.videoContainer = videoContainer}>
                 <video
-                    // https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Media_events
                     poster={`../videos/posters/${chosenVideo}.jpg`}
-                    onLoadStart={() => (chosenVideoIndex !== 0 || canVideosBePlayed) && this.playVideo() }
+                    onLoadStart={() => canPlay && this.playVideo() }
                     onEnded={() => this.chooseNext()}
                     onTimeUpdate={() => this.updateProgress()} // timeUpdate event fires everytime the media's currentTime attribute is changed
                     ref={video => this.video = video}
@@ -267,7 +277,7 @@ class Player extends React.Component<IProps, IState> {
                     <i className={togglePlayText === 'Play' ? 'icon-pause-circled' : 'icon-play-circled'}></i>
                 </button>
 
-                <div className="player-interface">
+                <div className={togglePlayText === 'Play' ? 'player-interface player-interface--mobile-visible' : 'player-interface'}>
                     <div id="controls" className="player-interface-controls">
                         <button
                             className="button button--no-outline button--play pointer"
