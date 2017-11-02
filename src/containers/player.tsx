@@ -159,7 +159,7 @@ class Player extends React.Component<IProps, IState> {
     }
 
     setVideoProgress = (value: number): void => {
-        if (this.state.canPlay) {
+        if (this.video) {
             let setProgress = this.video.duration * (value / 100);
             
             this.video.currentTime = setProgress;
