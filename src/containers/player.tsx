@@ -159,7 +159,7 @@ class Player extends React.Component<IProps, IState> {
     }
 
     setVideoProgress = (value: number): void => {
-        if (this.video) {
+        if (this.video) { // this if can probably be removed.
             let setProgress = this.video.duration * (value / 100);
             
             this.video.currentTime = setProgress;
@@ -265,7 +265,9 @@ class Player extends React.Component<IProps, IState> {
                     onTimeUpdate={() => this.updateProgress()} // timeUpdate event fires everytime the media's currentTime attribute is changed
                     ref={video => this.video = video}
                     src={`../videos/${chosenVideo}.${this.extension}`}
+                    preload="none"
                     controls>
+                    <p>Your browser does not support video</p>
                 </video>
 
                 <button

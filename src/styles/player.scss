@@ -60,6 +60,7 @@
         & .rangeslider__fill {
             background: $brand-first; /* fallback for old browsers */
             background: $progress-bar;
+            border-radius: 0;
             height: 100%;
             margin: 0;
         }

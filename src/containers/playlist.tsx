@@ -32,7 +32,7 @@ class Playlist extends React.Component<IProps, IState> {
     }
 
     render() {
-        const { isPlaylistVisible } = this.state
+        const { isPlaylistVisible } = this.state;
         let video = this.props.playlist.map((currentVideo, index) => {
             let highlighted = '';
             if (currentVideo.videoTitle === this.props.chosenVideo) {

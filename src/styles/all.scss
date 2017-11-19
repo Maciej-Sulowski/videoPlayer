@@ -153,6 +153,7 @@ table {
                 width: 80px;
             }
 
+            border-radius: 0;
             width: 122px;
         }
     }
@@ -173,10 +174,11 @@ table {
                 }
 
                 background: $white;
-                top: 3px;
                 left: 0;
-                height: 24px;
-                width: 24px;
+                top: 7px;
+                height: 17px;
+                width: 17px;
+                border-radius: 0;
             }
 
             &-tooltip {
@@ -186,11 +188,12 @@ table {
 
         &-horizontal {
             height: 10px;
-            border-radius: $radius;
+            border-radius: 0;
         }
 
         &__fill {
             background: $progress-bar;
+            border-radius: 0;
         }
     }
 }
